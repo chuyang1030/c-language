@@ -1,0 +1,15 @@
+#include <stdio.h>
+int Max(int x, int y)
+{
+	x > y ? x : y;//使用三目操作符 更简洁明了 亦可用if else语句
+}
+int main()
+{
+	int a, b;
+	scanf("%d %d", &a, &b);
+	int c = Max(a, b);
+	printf("%d\n", c);
+
+	return 0;
+
+}
