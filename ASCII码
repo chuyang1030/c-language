@@ -6,3 +6,4 @@ int main()
 		printf("%c ", arr[i]);
 	return 0;
 }
+\\注意所取i的范围大小
