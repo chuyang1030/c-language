@@ -1,0 +1,21 @@
+#define  _CRT_SECURE_NO_WARNINGS 1
+#include <stdio.h>
+{int Swap(int x,int y)//此处x y为形参
+	int z = 0;
+	z = x;
+	x = y;
+	y = z;
+
+}
+//当实参传递给形参的时候，形参是实参的一份临时拷贝
+//前面一系列步骤对形参产生的修改不会影响实参
+int main()
+{
+	int a, b;
+	scanf("%d %d", &a, &b);
+	Swap(a, b);//a b为实参 
+	printf("%d %d", a, b);
+
+	return 0;
+
+}

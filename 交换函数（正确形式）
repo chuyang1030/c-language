@@ -1,0 +1,17 @@
+#define  _CRT_SECURE_NO_WARNINGS 1
+#include <stdio.h>
+int Swap(int* px, int* py)
+{
+	int c = *px;//*px就是代表a以此类推
+	*px = *py;
+	*py = c;
+}
+int main()
+{
+	int a, b;
+	scanf("%d %d",&a,&b);
+	printf("交换前：a=%d b=%d\n", a, b);
+	Swap(&a,&b);//取地址可以直接与上面函数建立联系 防止实参和形参的影响
+	printf("交换后：a=%d b=%d\n", a, b);
+	return 0;
+}
