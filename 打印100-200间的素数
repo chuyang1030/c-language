@@ -1,0 +1,31 @@
+#include <stdio.h>
+int main()
+{
+	int i = 0;
+	int count = 0;//引入count来计算素数的个数
+	for (i = 100; i <= 200; i++)
+	{
+		//基本思路
+		//判断i是否为素数
+		//是素数就打印
+		//拿2~i-1之间的数字去试除i
+		int flag = 1;//这里引入了一个flag 当flag是1时表示i是素数 反之亦反
+		int j = 0;
+		for (j = 2; j <= i - 1; j++)
+		{
+			if (i % j == 0)
+			{
+				flag = 0;
+				break;
+			}
+		}
+		if (flag == 1)
+		{
+			printf("%d ", i);
+			count++;
+		}
+			
+	}
+	printf("\n%d", count);
+	return 0;
+}
