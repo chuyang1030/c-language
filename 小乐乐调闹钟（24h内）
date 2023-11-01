@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+int main()
+{
+    int k = 0;
+    int a, b;
+    scanf("%d:%d %d", &a, &b, &k);
+    if (k + b >= 60)
+    {
+        a += (k + b) / 60;
+        b = (k + b) % 60;
+    }
+    else
+    {
+        b = b + k;
+    }
+    printf("%02d:%02d", a, b);
+    return 0;
+}
