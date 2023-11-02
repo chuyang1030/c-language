@@ -1,0 +1,15 @@
+#include <stdio.h>
+int main()
+{
+	int a, b;
+	scanf("%d %d", &a, &b);
+	int i = 0;
+	int c = 0;//注意了解此处引入c的意义
+	for (i = 1; i <= a && i <= b; i++)
+	{
+		if (a % i == 0 && b % i == 0)
+			c = i;//这样可以把i赋值给c 从而打印出c 即最后一个i 如果不使用c则打印一堆符合条件的i
+	}
+	printf("%d", c);
+	return 0;
+}
