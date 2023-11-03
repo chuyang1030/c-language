@@ -1,0 +1,71 @@
+#include <stdio.h>
+
+int ret(int i)
+
+{
+
+	if (i <= 1)
+
+	{
+
+		return 1;
+
+	}
+
+		return i * ret(i - 1);
+
+}
+
+int main()
+
+{
+
+	int i = 0;
+
+	scanf("%d", &i);
+
+	int jc=ret(i);
+
+	printf("%d",jc);
+
+	return 0;
+
+}
+
+#include <stdio.h>
+
+int main()
+
+{
+
+	int i = 0;
+
+	scanf("%d", &i);
+
+	if (i <= 1)
+
+		printf("1");
+
+	else
+
+	{
+
+		int j = 0;
+
+		int jc = 1;
+
+		for (j = 1; j <= i; j++)
+
+		{
+
+			jc = jc * j;
+
+		}
+
+		printf("%d", jc);
+
+	}
+
+	return 0;
+
+}
