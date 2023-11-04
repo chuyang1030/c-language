@@ -1,4 +1,4 @@
-#include <stdio.h>
+1.#include <stdio.h>
 
 int ret(int i)
 
@@ -32,7 +32,7 @@ int main()
 
 }
 
-#include <stdio.h>
+2.#include <stdio.h>
 
 int main()
 
