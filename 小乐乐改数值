@@ -1,0 +1,17 @@
+#include <stdio.h>
+int main()
+{
+	int i = 0;//最终输出的数 
+	int j = 1;//每次循环中若出现奇数就加上对应位的数 如个位+1 十位+10 所以每次循环要*10
+	int n = 0;
+	scanf("%d", &n);
+	while (n)//未知循环次数用while！
+	{
+		if ((n % 10) % 2 != 0)
+			i = i + j;
+		j = 10 * j;
+		n = n / 10;
+	}
+	printf("%d", i);
+	return 0;
+}
