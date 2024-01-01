@@ -1,0 +1,493 @@
+#include <stdio.h>
+#include <string.h>
+
+void mainmenu()
+{
+	printf("*********************************************************************\n");
+	printf("***************************** 主 菜 单 ******************************\n");
+	printf("***********************     1.图书管理           ********************\n");
+	printf("***********************     2.读者管理           ********************\n");
+	printf("***********************     3.借书               ********************\n");
+	printf("***********************     4.还书               ********************\n");
+	printf("***********************     5.查询与统计         ********************\n");
+	printf("***********************     6.文件保存           ********************\n");
+	printf("***********************     0.退出               ********************\n");
+	printf("*********************************************************************\n");
+}
+
+void menu()
+{
+	printf("************       欢 迎 使 用 图 书 借 阅 管 理 系 统   ************\n\n");
+	printf("                          是否有要读入的文件？\n");
+	printf("                             1.是\n");
+	printf("                             0.否\n");
+}
+
+int book_count = 0;
+int reader_count = 0;
+
+struct book
+{
+	int num; 
+	char bookname[20];
+	char writer[20];
+	char publish_house[20];
+	int count;
+}book[10001];
+
+struct reader
+{
+	int reader_num;
+	char reader_name[20];
+	int reader_age;
+	char reader_sex[10];
+}reader[1001];
+
+struct borrow_book
+{
+	char Book_name[20];
+	int book_num;
+	char borrow_date[20];
+	int borrow_book_num;
+}borrow_book[10001];
+
+struct return_book
+{
+	char Rbook_name[20];
+	char return_date[20];
+	int book_num;
+	int return_book_num;
+}return_book[10001];
+
+int book_delect(char ch[30])
+{
+	int i = 0;
+	for (i = 0; i <= book_count; i++)
+	{
+		if (strcmp(book[i].bookname , ch) == 0)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+int reader_delect(int i)
+{
+	int k = i;
+	for (k = 0; k <= reader_count; k++)
+	{
+		if (reader[k].reader_num ==i)
+		{
+			return k;
+		}
+	}
+	return -1;
+}
+
+void book_add()
+{
+	printf("请依次输入下列图书信息（用空格隔开）：书号 书名 作者 出版社 库存数量\n"); 
+	int i = book_count;
+	scanf("%d %s %s %s %d" ,&book[i].num , & book[i].bookname, &book[i].writer, &book[i].publish_house,&book[i].count );
+	printf("添加图书《%s》成功\n",book[i].bookname );
+	book_count++;
+}
+
+void book_cut()
+{
+	printf("请输入要删除的图书书名：\n");
+	char ch[30]; scanf("%s", &ch);
+	int pos =book_delect(ch);
+	if (pos == -1)
+	{
+		printf("查无此书！\n");
+	}
+	else
+	{
+		for (int k =pos; k < book_count-1; k++)
+		{
+			book[k] = book[k + 1];
+		}
+		book_count--;
+		printf("删除图书成功！\n");
+	}
+}
+
+void reader_add()
+{
+	printf("请依次输入读者信息：1.学号 2.姓名 3.年龄 4.性别\n");
+	int i = reader_count;
+	scanf("%d %s %d %s", &reader[i].reader_num,&reader[i].reader_name, &reader[i].reader_age, &reader[i].reader_sex);
+	printf("添加读者%s成功！\n", reader[i].reader_name);
+	reader_count++;
+}
+
+void reader_cut()
+{
+	printf("请输入要去除的读者学号\n");
+	int stu_num = 0;
+	scanf("%d", &stu_num);
+	int pos=reader_delect(stu_num);
+	if (pos == -1)
+	{
+		printf("查无此人！\n");
+	}
+	else
+	{
+		for (int j = pos; j < reader_count; j++)
+		{
+			reader[j] = reader[j + 1];
+			printf("删减读者%s成功!\n", reader[pos].reader_name);
+			reader_count--;
+		}
+	}
+}
+
+void book_manager()
+{
+	int input = 0;
+	do
+	{
+		printf("请输入要管理的类型 1.添加图书 2.删除图书 0.返回主菜单\n");
+		printf("请选择：");
+	    scanf("%d",&input);
+		switch (input)
+		{
+		case 1:
+			book_add();
+			continue;
+		case 2:
+			book_cut();
+			continue;
+		case 0:
+			break;
+		default:
+			printf("输入错误,请重新输入");
+			continue;
+		}
+	} while (input);
+}
+
+void reader_manager()
+{
+	int input = 0;
+	do
+	{
+		printf("请输入要管理的类型 1.添加读者 2.删减读者 0.返回主菜单\n");
+		printf("请选择：");
+		scanf("%d", &input);
+		switch (input)
+		{
+		case 1:
+			reader_add();
+			continue;
+		case 2:
+			reader_cut();
+			continue;
+		case 0:
+			break;
+		default:
+			printf("输入错误,请重新输入");
+			continue;
+		}
+	} while (input);
+
+}
+
+void borrow_books()
+{
+	printf("请依次输入 借书书名 书号 借书证号 借书日期\n");
+	char ch2[30];
+	scanf("%s", &ch2);
+	int pos = -1;
+	for (int i = 0; i < book_count; i++)
+	{
+		if (strcmp(book[i].bookname, ch2) == 0)
+		{
+			pos = i;
+		}
+	}
+	if (pos == -1)
+	{
+		printf("查无此书！");
+	}
+	else
+	{
+		scanf("%d %d %s", &borrow_book[pos].book_num, &borrow_book[pos].borrow_book_num, &borrow_book[pos].borrow_date);
+		if (book[pos].count==0)
+		{
+			printf("库存不足！");
+		}
+		else
+		{
+			printf("借书成功！\n");
+			book[pos].count--;
+		}
+	}
+}
+
+void return_books()
+{
+	printf("请依次输入 还书书名 借书证号 还书日期\n");
+	char ch3[30];
+	scanf("%s", &ch3);
+	int pos = -1;
+	for (int i = 0; i < book_count; i++)
+	{
+		if (strcmp(book[i].bookname, ch3) == 0)
+		{
+			pos = i;
+		}
+	}
+	if (pos == -1)
+	{
+		printf("查无此书！");
+	}
+	else
+	{
+		scanf("%d %s",&return_book[pos].return_book_num , &return_book[pos].return_date);
+		printf("还书成功！\n");
+		book[pos].count++;
+	}
+}
+
+void book_inquire()
+{
+	char ch1[30];
+	printf("请输入要查找的图书书名：\n");
+	scanf("%s", &ch1);
+	for (int i = 0; i < book_count; i++)
+	{
+		if (strcmp(book[i].bookname, ch1) == 0)
+		{
+			printf("该图书相关信息为：\n");
+			printf("-----------------------------------------\n");
+			printf("|书号\t|书名\t|作者\t|出版社\t|库存\t|\n");
+			printf("-----------------------------------------\n");
+			printf("|%d\t|%s\t|%s\t|%s\t|%d\t|\n", book[i].num, book[i].bookname, book[i].writer, book[i].publish_house,book[i].count );
+			printf("-----------------------------------------\n");
+			break;
+		}
+	}
+}
+void reader_inquire()
+{
+	char ch2[30];
+	printf("请输入要查询的读者姓名：\n");
+	scanf("%s", &ch2);
+	for (int i = 0; i < reader_count; i++)
+	{
+		if (strcmp(reader[i].reader_name, ch2) == 0)
+		{
+			printf("该读者的有关信息为：\n");
+			printf("------------------------------\n");
+			printf("学号\t姓名\t年龄\t性别\t\n");
+			printf("------------------------------\n");
+			printf("%d\t%s\t%d\t%s\n",reader[i].reader_num ,reader[i].reader_name ,reader[i].reader_age ,reader[i].reader_sex );
+			printf("------------------------------\n");
+		}
+	}
+}
+void book_statistic()
+{
+	printf("所有库存图书信息为：\n");
+	printf("-----------------------------------------\n");
+	printf("|书号\t|书名\t|作者\t|出版社\t|库存\t|\n");
+	printf("-----------------------------------------\n");
+	for (int k = 0; k < book_count; k++)
+	{
+		printf("|%d\t|%s\t|%s\t|%s\t|%d\t|\n", book[k].num, book[k].bookname, book[k].writer, book[k].publish_house, book[k].count);
+	}
+	printf("-----------------------------------------\n");
+}
+void reader_statistic()
+{
+	printf("所有读者信息为：\n");
+	printf("------------------------------\n");
+	printf("学号\t姓名\t年龄\t性别\t\n");
+	printf("------------------------------\n");
+	for(int i=0;i<reader_count;i++)
+	{
+		printf("%d\t%s\t%d\t%s\n", reader[i].reader_num, reader[i].reader_name, reader[i].reader_age, reader[i].reader_sex);
+	}
+	printf("------------------------------\n");
+}
+void book_inquire_statistic()
+{
+	int input = 0;
+	do
+	{
+		printf("请选择功能:1.查询 2.统计 0.返回主菜单\n");
+		scanf("%d", &input);
+		switch(input)
+		{
+		case 1:
+			printf("请选择查询类型：1.图书查询 2.读者查询\n");
+			int n = 0; 
+			scanf("%d", &n);
+			if (n == 1)
+			{
+				book_inquire();
+				continue;
+			}
+			else if (n == 2)
+			{
+				reader_inquire();
+				continue;
+			}
+			else
+			{
+				printf("输入错误！请重新输入\n");
+				continue;
+			}
+		case 2:
+			printf("请选择统计类型：1.图书统计 2.读者统计\n");
+			int m = 0;
+			scanf("%d", &m);
+			if (m == 1)
+			{
+				book_statistic();
+				continue;
+			}
+			else if (m == 2)
+			{
+				reader_statistic();
+				continue;
+			}
+			else
+			{
+				printf("输入错误！请重新输入\n");
+				continue;
+			}
+		case 0:
+			break;
+		}
+	} while (input);
+}
+
+void read()
+{
+	do
+	{
+		FILE* fp;
+		char filename[1001];
+		printf("请输入你想要读入的文件路径：");
+		scanf("%s", &filename);
+		fp = fopen(filename, "r");
+		if (fp == NULL)
+		{
+			printf("文件打开错误，请重新输入\n");
+			continue;
+		}
+		int i = 0;
+		while (!feof(fp))
+		{
+			fscanf(fp,"%d %s %s %s %d", &book[i].num, &book[i].bookname, &book[i].writer, &book[i].publish_house, &book[i].count);
+			i++;
+			book_count++;
+		}
+		fclose(fp);
+		printf("文件数据读入成功！\n");
+		break;
+	} while (1);
+}
+
+void save()
+{
+	do
+	{
+		FILE* fp;
+		char filename[30];
+		printf("请输入想要保存的路径：");
+		gets(filename);
+		fp = fopen(filename, "w");
+		if (fp == NULL)
+		{
+			printf("文件打开错误，请重新输入\n");
+			continue;
+		}
+		for (int i = 0; i < book_count; i++)
+		{
+			fprintf(fp, "%d %s %s %s %d", book[i].num, book[i].bookname, book[i].writer, book[i].publish_house, book[i].count);
+		}
+		fclose(fp);
+		printf("文件数据保存成功！\n");
+		return;
+	} while (1);
+}
+int main()
+{
+	int in = 0;
+	menu();
+	scanf("%d", &in);
+	if (in == 1)
+	{
+		read();
+		int input = 0;
+		do
+		{
+			mainmenu();
+			printf("请选择:");
+			scanf("%d", &input);
+			switch (input)
+			{
+			case 1:
+				book_manager();
+				continue;
+			case 2:
+				reader_manager();
+				continue;
+			case 3:
+				borrow_books();
+				continue;
+			case 4:
+				return_books();
+				continue;
+			case 5:
+				book_inquire_statistic();
+				continue;
+			case 6:
+				save();
+				continue;
+			case 0:
+				break;
+			}
+		} while (input);
+	}
+	else
+	{
+		int input = 0;
+		do
+		{
+			mainmenu();
+			printf("请选择:");
+			scanf("%d", &input);
+			switch (input)
+			{
+			case 1:
+				book_manager();
+				continue;
+			case 2:
+				reader_manager();
+				continue;
+			case 3:
+				borrow_books();
+				continue;
+			case 4:
+				return_books();
+				continue;
+			case 5:
+				book_inquire_statistic();
+				continue;
+			case 6:
+				save();
+				continue;
+			case 0:
+				break;
+			}
+		} while (input);
+	}
+	printf("\n感谢您的使用，再见！\n");
+	return 0;
+}
