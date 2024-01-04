@@ -1,5 +1,15 @@
+#define  _CRT_SECURE_NO_WARNINGS 1
+
 #include <stdio.h>
 #include <string.h>
+
+void menu()
+{
+	printf("************       欢 迎 使 用 图 书 借 阅 管 理 系 统   ************\n\n");
+	printf("                          是否有要读入的文件？\n");
+	printf("                             1.是\n");
+	printf("                             0.否\n");
+}
 
 void mainmenu()
 {
@@ -13,14 +23,6 @@ void mainmenu()
 	printf("***********************     6.文件保存           ********************\n");
 	printf("***********************     0.退出               ********************\n");
 	printf("*********************************************************************\n");
-}
-
-void menu()
-{
-	printf("************       欢 迎 使 用 图 书 借 阅 管 理 系 统   ************\n\n");
-	printf("                          是否有要读入的文件？\n");
-	printf("                             1.是\n");
-	printf("                             0.否\n");
 }
 
 int book_count = 0;
@@ -255,8 +257,9 @@ void return_books()
 void book_inquire()
 {
 	char ch1[30];
-	printf("请输入要查找的图书书名：\n");
+	printf("请输入要查找的图书书名：");
 	scanf("%s", &ch1);
+	int count = 0;
 	for (int i = 0; i < book_count; i++)
 	{
 		if (strcmp(book[i].bookname, ch1) == 0)
@@ -269,13 +272,22 @@ void book_inquire()
 			printf("-----------------------------------------\n");
 			break;
 		}
+		else
+		{
+			count++;
+		}
+	}
+	if (count == book_count)
+	{
+		printf("查无此书！请重新输入\n");
 	}
 }
 void reader_inquire()
 {
 	char ch2[30];
-	printf("请输入要查询的读者姓名：\n");
+	printf("请输入要查询的读者姓名：");
 	scanf("%s", &ch2);
+	int count = 0;
 	for (int i = 0; i < reader_count; i++)
 	{
 		if (strcmp(reader[i].reader_name, ch2) == 0)
@@ -286,7 +298,16 @@ void reader_inquire()
 			printf("------------------------------\n");
 			printf("%d\t%s\t%d\t%s\n",reader[i].reader_num ,reader[i].reader_name ,reader[i].reader_age ,reader[i].reader_sex );
 			printf("------------------------------\n");
+			break;
 		}
+		else
+		{
+			count++;
+		}
+	}
+	if (count == reader_count)
+	{
+		printf("查无此人!请重新输入\n");
 	}
 }
 void book_statistic()
@@ -366,7 +387,7 @@ void book_inquire_statistic()
 	} while (input);
 }
 
-void read()
+void read()//读入文件
 {
 	do
 	{
@@ -393,7 +414,7 @@ void read()
 	} while (1);
 }
 
-void save()
+void save()//文件保存
 {
 	do
 	{
@@ -404,18 +425,19 @@ void save()
 		fp = fopen(filename, "w");
 		if (fp == NULL)
 		{
-			printf("文件打开错误，请重新输入\n");
+			printf("\n");
 			continue;
 		}
 		for (int i = 0; i < book_count; i++)
 		{
-			fprintf(fp, "%d %s %s %s %d", book[i].num, book[i].bookname, book[i].writer, book[i].publish_house, book[i].count);
+			fprintf(fp, "%d %s %s %s %d\n", book[i].num, book[i].bookname, book[i].writer, book[i].publish_house, book[i].count);
 		}
 		fclose(fp);
 		printf("文件数据保存成功！\n");
 		return;
 	} while (1);
 }
+
 int main()
 {
 	int in = 0;
@@ -488,6 +510,6 @@ int main()
 			}
 		} while (input);
 	}
-	printf("\n感谢您的使用，再见！\n");
+	printf("\n*感谢您的使用，再见！*\n");
 	return 0;
 }
